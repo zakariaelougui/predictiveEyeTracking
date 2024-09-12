@@ -1,0 +1,6 @@
+*.pyc
+__pycache__
+start_situation.zip
+build/
+venv/
+node_modules

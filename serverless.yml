@@ -1,0 +1,39 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: conduxtest
+# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
+app: predictiveeyetracking
+# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
+service: cond-eyetracking
+
+provider:
+  name: aws
+  runtime: python3.10
+  versionFunctions: false
+  memorySize: 1024
+  region: us-east-1
+  timeout: 800
+  stage: live
+
+package:
+  individually: false # use this to package functions individually
+  excludeDevDependencies: true # doesn't include dev-dependencies within the package
+  patterns:
+    - '!./.vscode'
+    - node_modules
+
+custom:
+  serverless-offline:
+    port: 4000 # Change to your desired port
+
+functions:
+  EyeTrackingJobPost:
+    handler: lambda_function.lambda_handler
+    events:
+      - http:
+          path: study-v2/ai/eye-tracking-job-post
+          method: post
+
+plugins:
+  - serverless-plugin-simulate
+  - serverless-python-requirements
+  - serverless-offline
